@@ -5,7 +5,7 @@ Descarga el tipo de cambio minorista desde la API pública del BCRA
 y lo inserta en raw.bcra_tipo_cambio.
 
 API doc: https://api.bcra.gob.ar
-Endpoint usado: /estadisticas/v3.0/monetarias/{idVariable}
+Endpoint usado: /estadisticas/v4.0/monetarias/{idVariable}   (antes 3.0, lo actualicé a 4.0)
 Variable 4 = Tipo de cambio minorista ($ por USD)
 """
 
@@ -45,7 +45,7 @@ def fetch_tipo_cambio(desde: date, hasta: date) -> list[dict]:
     Llama a la API del BCRA y retorna una lista de dicts con
     fecha y valor del tipo de cambio.
     """
-    url = f"{BCRA_BASE_URL}/estadisticas/v3.0/monetarias/{VARIABLE_ID}"
+    url = f"{BCRA_BASE_URL}/estadisticas/v4.0/monetarias/{VARIABLE_ID}"
     params = {
         "desde": desde.strftime("%Y-%m-%d"),
         "hasta": hasta.strftime("%Y-%m-%d"),
@@ -63,7 +63,7 @@ def fetch_tipo_cambio(desde: date, hasta: date) -> list[dict]:
     data = response.json()
 
     # La API retorna: {"results": [{"fecha": "2024-01-01", "valor": 808.5}, ...]}
-    resultados = data.get("results", [])
+    resultados = data.get("results", [{}])[0].get("detalle", [])
     logger.info(f"BCRA: {len(resultados)} registros recibidos")
 
     return resultados
