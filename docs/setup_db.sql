@@ -76,17 +76,27 @@ CREATE INDEX IF NOT EXISTS idx_sepa_producto
 -- TABLA: precios scrapeados de webs de supermercados
 -- ---------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS raw.scraper_precios (
-    id              BIGSERIAL PRIMARY KEY,
-    fecha           DATE NOT NULL,
-    supermercado    TEXT NOT NULL,       -- 'coto', 'carrefour', 'dia', 'disco'
-    id_producto     TEXT,               -- EAN o ID interno del sitio
-    nombre_producto TEXT NOT NULL,
-    marca           TEXT,
-    precio          NUMERIC(15, 2),
-    precio_promo    NUMERIC(15, 2),
-    url_producto    TEXT,
-    inserted_at     TIMESTAMP DEFAULT NOW()
+    id                BIGSERIAL PRIMARY KEY,
+    fecha             DATE NOT NULL,
+    supermercado      TEXT NOT NULL,
+    categoria         TEXT,
+    id_producto       TEXT,
+    nombre_producto   TEXT NOT NULL,
+    marca             TEXT,
+    precio            NUMERIC(15, 2),
+    precio_promo      NUMERIC(15, 2),
+    unidad_medida     TEXT,
+    contenido         NUMERIC(10, 3),
+    unidad_contenido  TEXT,
+    url_producto      TEXT,
+    inserted_at       TIMESTAMP DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS idx_scraper_fecha_super
+    ON raw.scraper_precios (fecha, supermercado);
+
+CREATE INDEX IF NOT EXISTS idx_scraper_categoria
+    ON raw.scraper_precios (categoria);
 
 CREATE INDEX IF NOT EXISTS idx_scraper_fecha_super
     ON raw.scraper_precios (fecha, supermercado);
