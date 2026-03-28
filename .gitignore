@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Variables de entorno - NUNCA subir esto
+.env
+
+# Datos crudos - son muy pesados para GitHub
+data/raw/
+data/processed/
+*.zip
+*.csv
+
+# dbt
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+
+# Airflow
+airflow/logs/
+airflow/plugins/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
