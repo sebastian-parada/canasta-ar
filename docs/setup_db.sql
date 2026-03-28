@@ -32,12 +32,10 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_bcra_fecha_variable
 -- ---------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS raw.indec_canasta_basica (
     id              SERIAL PRIMARY KEY,
-    periodo         DATE NOT NULL,        -- primer día del mes
-    cba_adulto      NUMERIC(15, 2),       -- Canasta Básica Alimentaria adulto equivalente
-    cbt_adulto      NUMERIC(15, 2),       -- Canasta Básica Total adulto equivalente
-    cba_familia     NUMERIC(15, 2),       -- CBA familia tipo (2 adultos + 2 menores)
-    cbt_familia     NUMERIC(15, 2),       -- CBT familia tipo
-    fuente          TEXT DEFAULT 'INDEC',
+    periodo         DATE NOT NULL,
+    cba_adulto      NUMERIC(15, 2),
+    cbt_adulto      NUMERIC(15, 2),
+    fuente          TEXT DEFAULT 'INDEC-CABA',
     inserted_at     TIMESTAMP DEFAULT NOW()
 );
 

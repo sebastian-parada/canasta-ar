@@ -4,7 +4,7 @@ ingestion/indec/fetch.py
 Descarga el CSV de Canasta Básica Alimentaria (CBA) y Canasta Básica Total (CBT)
 desde datos.gob.ar y lo inserta en raw.indec_canasta_basica.
 
-Dataset: https://datos.gob.ar/dataset/sspm_59
+Dataset: https://datos.gob.ar/dataset/sspm-canasta-basica-alimentaria-total-ciudad-buenos-aires
 CSV URL: actualizar si cambia — verificar en el link anterior
 """
 
@@ -24,10 +24,9 @@ load_dotenv()
 # Verificar que siga activa en: https://datos.gob.ar/dataset/sspm_59
 # ----------------------------------------------------------------
 CSV_URL = (
-    "https://infra.datos.gob.ar/catalog/sspm/dataset/59/distribution/"
-    "59.1/download/canasta-basica-alimentaria-y-total-serie-trimestral.csv"
+    "https://infra.datos.gob.ar/catalog/sspm/dataset/444/distribution/"
+    "444.1/download/canastas-basicas-ciudad-de-buenos-aires.csv"
 )
-
 
 def get_db_connection():
     return psycopg2.connect(
@@ -74,10 +73,8 @@ def clean_canasta(df: pd.DataFrame) -> pd.DataFrame:
     # y ajustá el mapeo
     column_map = {
         "indice_tiempo": "periodo",
-        "cba_adulto_equivalente": "cba_adulto",
-        "cbt_adulto_equivalente": "cbt_adulto",
-        "cba_familia_tipo": "cba_familia",
-        "cbt_familia_tipo": "cbt_familia",
+        "canasta_basica_alimentaria": "cba_adulto",
+        "canasta_basica_total": "cbt_adulto",
     }
 
     # Solo renombramos las que existen
@@ -89,7 +86,7 @@ def clean_canasta(df: pd.DataFrame) -> pd.DataFrame:
     df = df.dropna(subset=["periodo"])
 
     # Convertir valores numéricos
-    for col in ["cba_adulto", "cbt_adulto", "cba_familia", "cbt_familia"]:
+    for col in ["cba_adulto", "cbt_adulto"]:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
 
@@ -106,7 +103,7 @@ def insert_canasta(df: pd.DataFrame, conn) -> int:
     Inserta el DataFrame en raw.indec_canasta_basica.
     ON CONFLICT DO NOTHING para evitar duplicados.
     """
-    cols_needed = ["periodo", "cba_adulto", "cbt_adulto", "cba_familia", "cbt_familia"]
+    cols_needed = ["periodo", "cba_adulto", "cbt_adulto"]
 
     rows = []
     for _, row in df.iterrows():
@@ -114,13 +111,11 @@ def insert_canasta(df: pd.DataFrame, conn) -> int:
             row["periodo"].date(),
             row.get("cba_adulto"),
             row.get("cbt_adulto"),
-            row.get("cba_familia"),
-            row.get("cbt_familia"),
         ))
 
     sql = """
         INSERT INTO raw.indec_canasta_basica
-            (periodo, cba_adulto, cbt_adulto, cba_familia, cbt_familia)
+            (periodo, cba_adulto, cbt_adulto)
         VALUES %s
         ON CONFLICT (periodo) DO NOTHING
     """
