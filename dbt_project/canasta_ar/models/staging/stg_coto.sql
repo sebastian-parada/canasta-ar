@@ -92,6 +92,11 @@ with_cantidad as (
     select
         *,
         case
+            -- Huevos: extraer cantidad de unidades del nombre
+            when categoria = 'huevos' and nombre_lower ~ '\d+\s*(u|uni|unidades?)(?!\w)'
+                then cast(
+                    regexp_replace(nombre_lower, '^.*?(\d+)\s*(u|uni|unidades?).*$', '\1') as numeric
+                )
             when nombre_lower ~ '\d+[\.,]?\d*\s*(kg|kgm)(?!\w)'
                 then cast(
                     regexp_replace(
@@ -124,6 +129,7 @@ with_cantidad as (
             else null
         end as cantidad_std,
         case
+            when categoria = 'huevos' and nombre_lower ~ '\d+\s*(u|uni|unidades?)(?!\w)' then 'unidades'
             when nombre_lower ~ '\d+[\.,]?\d*\s*(kg|kgm)(?!\w)'           then 'kg'
             when nombre_lower ~ '\d+\s*(g|gr|grm|gramos?)(?!\w)'          then 'kg'
             when nombre_lower ~ '\d+[\.,]?\d*\s*(l|lt|lts|litros?)(?!\w)' then 'L'
@@ -148,13 +154,16 @@ final as (
         cantidad_std                        as cantidad,
         unidad_std                          as unidad,
         case
+            when categoria = 'huevos' and cantidad_std > 0
+                then round(precio_lista / cantidad_std * 12, 2)
             when cantidad_std > 0
                 then round(precio_lista / cantidad_std, 2)
             else null
         end                                 as precio_por_unidad_std,
         case
-            when unidad_std = 'kg' then 'precio/kg'
-            when unidad_std = 'L'  then 'precio/L'
+            when categoria = 'huevos'  then 'precio/docena'
+            when unidad_std = 'kg'     then 'precio/kg'
+            when unidad_std = 'L'      then 'precio/L'
             else 'precio/unidad'
         end                                 as unidad_precio_std,
         url_producto,
