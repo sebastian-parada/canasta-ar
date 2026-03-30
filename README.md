@@ -19,9 +19,9 @@ Cruza precios scrapeados de supermercados con datos oficiales del INDEC y BCRA p
 
 | Cadena | Segmento | Estado |
 |---|---|---|
-| Coto | Popular / precio bajo | ✅ Activo |
-| Carrefour | Masivo / precio medio | 🔜 Próximamente |
-| Dia | Descuentos / hard discount | 🔜 Próximamente |
+| Coto | Popular| ✅ Activo |
+| Carrefour | Masivo | 🔜 Próximamente |
+| Dia | Descuentos | 🔜 Próximamente |
 | Disco | Calidad | 🔜 Próximamente |
 
 ---
