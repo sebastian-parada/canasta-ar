@@ -86,6 +86,18 @@ filtered as (
             and nombre_lower not like '%arroz integral%'
             and nombre_lower not like '%arroz 00000%'
         )
+        and not (
+            categoria = 'jamon_cocido'
+            and (
+                nombre_lower like '%panzotti%'
+                or nombre_lower like '%ravioles%'
+                or nombre_lower like '%capelletti%'
+            )
+        )
+        and not (
+            categoria = 'salame'
+            and nombre_lower like '%queso untable%'
+        )
 ),
 
 with_cantidad as (
@@ -126,6 +138,8 @@ with_cantidad as (
             when unidad_contenido ilike '%kilo%' and contenido > 0 then contenido
             when unidad_contenido ilike '%litro%' and contenido > 0 then contenido
             when unidad_contenido ilike '%gramo%' and contenido > 0 then contenido / 1000.0
+            -- Productos vendidos por kg variable (precio ya es por kg)
+            when unidad_medida = 'KGS' then 1.0
             else null
         end as cantidad_std,
         case
@@ -137,6 +151,7 @@ with_cantidad as (
             when unidad_contenido ilike '%kilogram%'                       then 'kg'
             when unidad_contenido ilike '%kilo%'                           then 'kg'
             when unidad_contenido ilike '%litro%'                          then 'L'
+            when unidad_medida = 'KGS'                                     then 'kg'
             else unidad_medida
         end as unidad_std
     from filtered
