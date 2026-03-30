@@ -1,4 +1,5 @@
 # 🛒 canasta-ar
+Proyecto en desarrollo. El código será refactorizado y documentado progresivamente.
 
 Pipeline de datos para analizar y comparar el costo real de alimentarse en CABA, Argentina.
 Cruza precios scrapeados de supermercados con datos oficiales del INDEC y BCRA para responder una pregunta simple con datos complejos:
