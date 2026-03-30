@@ -3,7 +3,7 @@
 Pipeline de datos para analizar y comparar el costo real de alimentarse en CABA, Argentina.
 Cruza precios scrapeados de supermercados con datos oficiales del INDEC y BCRA para responder una pregunta simple con datos complejos:
 
-> **¿Cuánto cuesta realmente comer por persona por mes en Buenos Aires, según qué supermercado y qué calidad de productos elegís?**
+> **¿Cuánto cuesta realmente comer por persona por mes en Buenos Aires? ¿Son representativos los datos de las fuentes oficiales?**
 
 ---
 
