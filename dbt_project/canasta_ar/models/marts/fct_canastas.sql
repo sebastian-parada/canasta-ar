@@ -4,14 +4,8 @@
 -- Canasta mínima: P10-P20, básica: P45-P55, completa: P60-P75, premium: P80-P90
 
 with precios as (
-    select *
-    from marts.fct_precios_categoria
-    where not (categoria = 'aceite_oliva'   and unidad_precio_std = 'precio/kg')
-      and not (categoria = 'dulce_de_leche' and unidad_precio_std = 'precio/L')
-      and not (categoria = 'yogur'          and unidad_precio_std = 'precio/L')
-      and not (categoria = 'vino'           and unidad_precio_std = 'precio/kg')
+    select * from marts.fct_precios_categoria
 ),
-
 -- Canastas con cantidades mensuales por producto
 -- Unidades: kg, L, docena según corresponda
 canasta_items as (

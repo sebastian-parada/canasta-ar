@@ -23,6 +23,7 @@ base as (
       and not (s.categoria = 'aceite_oliva'   and s.unidad_precio_std = 'precio/kg')
       and not (s.categoria = 'dulce_de_leche' and s.unidad_precio_std = 'precio/L')
       and not (s.categoria = 'yogur'          and s.unidad_precio_std = 'precio/L')
+      and not (s.categoria = 'vino'           and s.unidad_precio_std = 'precio/kg')
 ),
 
 iqr_bounds as (
