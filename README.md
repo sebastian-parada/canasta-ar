@@ -131,6 +131,7 @@ cd canasta-ar
 python -m venv .venv
 .venv\Scripts\activate       # Windows
 pip install -r requirements.txt
+pip install dbt-postgres
 ```
 
 ### 2. Configurar variables de entorno 
@@ -151,7 +152,13 @@ python -m ingestion.indec.fetch
 python -m ingestion.scrapers.coto
 ```
 
-### 5. Correr transformaciones dbt
+### 5. Configurar dbt 
+```bash
+cd dbt_project/canasta_ar
+dbt init canasta_ar  # credenciales de PostgreSQL
+```
+
+### 6. Correr transformaciones dbt
 ```bash
 cd dbt_project/canasta_ar
 dbt run
