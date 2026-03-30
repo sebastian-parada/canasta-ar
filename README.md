@@ -23,7 +23,7 @@ Cruza precios scrapeados de supermercados con datos oficiales del INDEC y BCRA p
 | Coto | Popular| ✅ Activo |
 | Carrefour | Masivo | 🔜 Próximamente |
 | Dia | Masivo | 🔜 Próximamente |
-| Disco | Calidad | 🔜 Próximamente |
+| Disco | Variedad | 🔜 Próximamente |
 
 ---
 
