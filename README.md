@@ -184,5 +184,5 @@ dbt run
 
 ---
 
-Proyecto de portfolio — ETL diario con Python, dbt y Airflow.  
+Proyecto de portfolio — Pipeline ETL diario con Python, dbt y Airflow.  
 **Sebastián Parada** — 2026
