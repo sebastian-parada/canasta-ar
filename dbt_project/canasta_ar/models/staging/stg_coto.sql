@@ -593,8 +593,6 @@ filtered as (
                 or nombre_lower like '%hileret%'
                 or nombre_lower like '%stevia%'
                 or nombre_lower like '%impalpable%'
-                or nombre_lower like '%%'
-
             )
         )   
         and not (
