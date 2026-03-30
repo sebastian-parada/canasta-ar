@@ -133,7 +133,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-### 2. Configurar variables de entorno
+### 2. Configurar variables de entorno (.env)
 ```bash
 cp .env.example .env
 # Editar .env con tus credenciales de PostgreSQL
@@ -159,7 +159,7 @@ dbt run
 
 ---
 
-## Resultados actuales *(30/03/2026)*
+## Resultados *(30/03/2026)*
 *Costo estimado de alimentación por persona por mes en CABA*
 
 | Canasta | Costo mensual (ARS) | Costo mensual (USD) |
