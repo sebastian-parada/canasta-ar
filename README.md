@@ -133,7 +133,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-### 2. Configurar variables de entorno (.env)
+### 2. Configurar variables de entorno 
 ```bash
 cp .env.example .env
 # Editar .env con tus credenciales de PostgreSQL
