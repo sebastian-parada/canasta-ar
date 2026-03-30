@@ -47,7 +47,7 @@ canasta-ar/
 │   ├── indec/
 │   │   └── fetch.py              ← Canasta básica CABA
 │   └── scrapers/
-│       └── coto.py               ← Scraper Coto Digital (~140 búsquedas)
+│       └── coto.py               ← Scraper Coto Digital (~140 búsquedas, +3000 productos)
 ├── dbt_project/canasta_ar/
 │   ├── macros/
 │   │   └── generate_schema_name.sql
