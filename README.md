@@ -75,8 +75,8 @@ El proyecto define 4 canastas que representan distintos niveles de consumo alime
 
 | Canasta | Descripción | Percentil de precio |
 |---|---|---|
-| **Mínima** | Alimentación básica de subsistencia | P10 - P20 |
-| **Básica** | Alimentación completa clase media-baja | P45 - P55 |
+| **Mínima** | Alimentación extrema de subsistencia | P10 - P20 |
+| **Básica** | Alimentación básica clase media-baja | P45 - P55 |
 | **Completa** | Alimentación variada clase media | P60 - P75 |
 | **Premium** | Alimentación premium clase alta | P80 - P90 |
 
