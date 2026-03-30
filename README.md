@@ -183,6 +183,4 @@ dbt run
 - [ ] **¿Integración SEPA?** — cruzar datos oficiales de preciosclaros.gob.ar para detectar diferencias entre los precios declarados y los reales en la página de cada supermercado 
 
 ---
-
-Proyecto de portfolio — Pipeline ETL diario con Python, dbt y Airflow.  
 **Sebastián Parada** — 2026
