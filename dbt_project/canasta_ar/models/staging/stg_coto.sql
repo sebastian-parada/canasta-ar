@@ -3,10 +3,12 @@
 -- Aplica reglas de filtrado para eliminar productos no alimenticios
 
 with source as (
-    select * from raw.scraper_precios
+    select distinct on (supermercado, categoria, nombre_producto) *
+    from raw.scraper_precios
     where supermercado = 'coto'
       and precio is not null
       and precio > 0
+    order by supermercado, categoria, nombre_producto, fecha desc
 ),
 
 cleaned as (
@@ -45,6 +47,8 @@ filtered as (
         and nombre_lower not like '%sándwich%'
         and nombre_lower not like '%bloque%'
         and nombre_lower not like '%remera%'
+
+        -- SAL: solo sal de cocina
         and not (
             categoria = 'sal'
             and nombre_lower not like '%sal fina%'
@@ -52,6 +56,18 @@ filtered as (
             and nombre_lower not like '%sal entrefina%'
             and nombre_lower not like '%sal de mesa%'
             and nombre_lower not like '%sal parrillera%'
+            and nombre_lower not like '%saler%'
+        )
+        -- SAL: excluir sales modificadas y light
+        and not (
+            categoria = 'sal'
+            and (
+                nombre_lower like '%light%'
+                or nombre_lower like '%modificada%'
+                or nombre_lower like '%dietética%'
+                or nombre_lower like '%reducida%'
+                or nombre_lower like '%finas hierbas%'
+            )
         )
         and not (
             categoria = 'agua'
@@ -115,16 +131,7 @@ filtered as (
                 or nombre_lower like '%alfajor%'
             )
         )
-        and not (
-            categoria = 'yerba_mate'
-            and (
-                nombre_lower like '%saquito%'
-                or nombre_lower like '%mate cocido%'
-                or nombre_lower like '%te %'
-                or nombre_lower like '% te%'
-                or nombre_lower like '%tizana%'
-            )
-        )
+
         and not (
             categoria = 'leche'
             and (
@@ -136,6 +143,9 @@ filtered as (
                 or nombre_lower like '%bebida a base%'
                 or nombre_lower like '%ades%'
                 or nombre_lower like '%silk%'
+                or nombre_lower like '%chocolate%'
+                or nombre_lower like '%café%'
+                or nombre_lower like '%cafe%'
             )
         )
         and not (
@@ -148,30 +158,61 @@ filtered as (
                 or nombre_lower like '%crema%'
                 or nombre_lower like '%aceite%'
                 or nombre_lower like '%limpiador%'
+                or nombre_lower like '%rollo%'
+                or nombre_lower like '%poroto%'
+                or nombre_lower like '%galleta%'
+                or nombre_lower like '%galletita%'
+                or nombre_lower like '%medialuna%'
+                or nombre_lower like '%bizco%'
+                or nombre_lower like '%emulsion%'
+                or nombre_lower like '%papel%'
+                or nombre_lower like '%protector%'
+                or nombre_lower like '%cacao%'
+                or nombre_lower like '%labial%'
+                or nombre_lower like '%crema%'
+                or nombre_lower like '%figazzita%'
+                or nombre_lower like '%pizz%'
+                or nombre_lower like '%mantecado%'
             )
         )
-        and not (
-            categoria = 'azucar'
-            and (
-                nombre_lower like '%gaseosa%'
-                or nombre_lower like '%amargo%'
-                or nombre_lower like '%sprite%'
-                or nombre_lower like '%seven up%'
-                or nombre_lower like '%paso de los toros%'
-                or nombre_lower like '%bebida%'
-                or nombre_lower like '%edulcorante%'
-            )
-        )
+
         and not (
             categoria = 'frutos_secos'
             and (
                 nombre_lower like '%bebida%'
-                or nombre_lower like '%leche de%'
                 or nombre_lower like '%jabón%'
                 or nombre_lower like '%limpiador%'
                 or nombre_lower like '%esencia%'
                 or nombre_lower like '%crema de%'
                 or nombre_lower like '%aceite de%'
+                or nombre_lower like '%leche%'
+                or nombre_lower like '%vegetal%'
+                or nombre_lower like '%bot%'
+                or nombre_lower like '%chocolate%'
+                or nombre_lower like '%harina%'
+                or nombre_lower like '%cereal%'
+                or nombre_lower like '%granola%'
+                or nombre_lower like '%barr%'
+                or nombre_lower like '%galle%'
+                or nombre_lower like '%turr%'
+                or nombre_lower like '%bomb%'
+                or nombre_lower like '%helado%'
+                or nombre_lower like '%postre%'
+                or nombre_lower like '%huevo%'
+                or nombre_lower like '%jab%'
+                or nombre_lower like '%crema%'
+                or nombre_lower like '%hidr%'
+                or nombre_lower like '%acondicionador%'
+                or nombre_lower like '%tint%'
+                or nombre_lower like '%color%'
+                or nombre_lower like '%tono%'
+                or nombre_lower like '%alfajor%'
+                or nombre_lower like '%licor%'
+                or nombre_lower like '%mortadela%'
+                or nombre_lower like '%sabor%'
+                or nombre_lower like '%miel%'
+                or nombre_lower like '%croc%'
+                or nombre_lower like '%frito%'
             )
         )
         and not (
@@ -205,10 +246,21 @@ filtered as (
                 or nombre_lower like '%perfume%'
                 or nombre_lower like '%fragancia%'
                 or nombre_lower like '%sopa%'
+                or nombre_lower like '%takis%'
+                or nombre_lower like '%semilla%'
+                or nombre_lower like '%peluche%'
+                or nombre_lower like '%pizz%'
+                or nombre_lower like '%snack%'
+                or nombre_lower like '%salsa%'
+                or nombre_lower like '%pure%'
+                or nombre_lower like '%gnocchi%'
+                or nombre_lower like '%puré%'
+                or nombre_lower like '%hamburgesa%'
+                or nombre_lower like '%libro%'
             )
         )
         and not (
-            categoria = 'frutas'
+            categoria = 'frutas' 
             and (
                 length(nombre_lower) > 25
                 or array_length(regexp_split_to_array(nombre_lower, '\s+'), 1) > 5
@@ -471,7 +523,7 @@ filtered as (
             )
         )
         and not (
-            categoria in ('galletita', 'galletas')
+            categoria in ('galletita', 'galletas, galletitas')
             and (
                 nombre_lower like '%cracker%'
                 or nombre_lower like '%criollita%'
@@ -519,10 +571,44 @@ filtered as (
                 nombre_lower like '%yerbero%'
                 or nombre_lower like '%despolvillador%'
                 or nombre_lower like '%matero%'
+                or nombre_lower like '%saquito%'
+                or nombre_lower like '%cocido%'
+                or nombre_lower like '%té%'
+                or nombre_lower like '%bebida%'
+                or nombre_lower like '%lata%'
+                or nombre_lower like '%azuc%'
+                or nombre_lower like '%gin%'            )
+        )     
+        and not (
+            categoria in ('azucar')
+            and (
+                nombre_lower like '%sin azucar%'
+                or nombre_lower like '%sin azúcar%'
+                or nombre_lower like '%matero%'
+                or nombre_lower like '%amargo%'
+                or nombre_lower like '%gaseosa%'
+                or nombre_lower like '%jugo%'
+                or nombre_lower like '%bebida%'
+                or nombre_lower like '%edulcorante%'
+                or nombre_lower like '%hileret%'
+                or nombre_lower like '%stevia%'
+                or nombre_lower like '%impalpable%'
+                or nombre_lower like '%%'
 
             )
-        )               
-),
+        )   
+        and not (
+            categoria = 'vino'
+            and (
+                nombre_lower like '%coci%'
+                or nombre_lower like '%vinagre%'
+                or nombre_lower like '%salsa%'
+                or unidad_medida = 'KGS'
+                or unidad_medida = 'kg'
+            )
+        )
+),                              
+
 
 with_cantidad as (
     select
@@ -584,6 +670,8 @@ final as (
         fecha,
         supermercado,
         case
+            when categoria = 'galletas' then 'galletitas'
+            when categoria = 'galletita' then 'galletitas'
             when categoria = 'galletas' then 'galletitas'
             else categoria
         end                                 as categoria,
