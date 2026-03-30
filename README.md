@@ -180,7 +180,7 @@ dbt run
 - [ ] **Scrapers adicionales** - Carrefour, Dia, Disco para comparar precios entre cadenas
 - [ ] **Orquestación con Airflow** - DAGs para correr el pipeline diariamente de forma automática
 - [ ] **Dashboard** - visualización interactiva de la evolución de precios y canastas
-- [ ] **¿Integración SEPA?** - cruzar datos oficiales de preciosclaros.gob.ar para detectar diferencias entre los precios declarados y los reales en la página de cada supermercado 
+- [ ] **¿Integración SEPA?** - cruzar datos oficiales de preciosclaros.gob.ar para detectar diferencias entre los precios declarados y los reales de cada supermercado 
 
 ---
 **Sebastián Parada** - 2026
